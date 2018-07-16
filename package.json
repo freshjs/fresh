@@ -1,0 +1,14 @@
+{
+  "name": "fresh",
+  "version": "0.4.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Donnie Reese <hi@donniereese.com> (https://www.donniereese.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^16.2.2"
+  }
+}

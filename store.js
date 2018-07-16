@@ -1,0 +1,5 @@
+class Store {
+    constructor(default = {}) {
+    }
+}
+        
