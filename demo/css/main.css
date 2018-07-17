@@ -3,9 +3,10 @@
 }
 
 body {
-    background-color: #2878FB;
-    background-color: #0F56FB;
-    color: #fff;
+    background: linear-gradiant(to bottom, #eee 30%, #fff);
+    color: #232524;
+    font-family: Roboto;
+    font-weight: 400;
 }
 
 .app {
@@ -14,7 +15,17 @@ body {
 }
 
 .app-header {
-    background-color: #afe6fb;
-    color: #3f60a7;
+    background-color: #0F56FB;
+    color: #eee;
+    font-family: 'Abril Fatface';
     padding: 1rem;
+}
+
+nav {
+    margin: .2rem;
+    padding: .8rem;
+}
+
+a {
+    margin: .2rem .4rem;
 }

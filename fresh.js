@@ -37,6 +37,7 @@ class Fresh {
 			// console.log('Instanceof Element: ', node);
 			this.root = node;
 		} else if (typeof node === 'object' && node instanceof HTMLElement) {
+			// console.log(node);
 			this.node.appendChild(node);
 		} else if (typeof node === 'function') {
 			// console.log('Function: ', node);
@@ -74,24 +75,25 @@ class Fresh {
 	}
 	
 	dom(tag, attrs, ...children) {
-		console.log(this.ordered);
 		this.ordered++;
 		let component = null;
-		console.log('Component: ' + typeof tag + '\n', tag);
+		// console.log('Component: ' + typeof tag + '\n', tag);
 		// Custom Components will be functions
 		if (typeof tag === 'function') {
 			component = new tag();
 			return component.template();
 		}
+		
+		
 		// regular html tags will be strings to create the elements
 		if (typeof tag === 'string') {
+			// console.log(tag, attrs, children);
 			// fragments to append multiple children to the initial node
 			const fragments = document.createDocumentFragment();
 			// create the DOM element
 			const element = document.createElement(tag);
 			// iterrate over the children
 			children.forEach(child => {
-				// console.log(child);
 				// if the child is an HTML Element
 				if (child instanceof HTMLElement) {
 					// append the html element to the fragment container
@@ -102,6 +104,13 @@ class Fresh {
 					const textnode = document.createTextNode(child)
 					// append the text node to the fragment container
 					fragments.appendChild(textnode)
+					// console.log(textnode, fragments);
+				} else if (Array.isArray(child)) {
+					// Array of elements
+					for(let i = 0; i < child.length; i++) {
+						// console.log('tag: ', child[i] instanceof HTMLElement);
+						fragments.appendChild(child[i]);
+					}
 				} else {
 					// later other things could not be HTMLElement not strings
 					// console.log('not appendable', child);
@@ -109,6 +118,7 @@ class Fresh {
 			});
 			
 			element.appendChild(fragments);
+			// console.log("Appended to: ", element);
     		// Merge element with attributes
     		Object.assign(element, attrs);
 			// console.log(element);
