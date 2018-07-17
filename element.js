@@ -1,10 +1,10 @@
-const Node = require('./Node.js');
+import Node from './Node.js';
 
 class Element extends Node {
 	constructor(settings, content = '', children = []) {
 		super(settings, children);
 		this.dom = null;
-		this.elementProperties = { ...settings.el };
+		this.elementProperties = settings.el;
 		this.innerHTML = content;
 		this.localStore = settings.localStore || {};
 	}
@@ -37,7 +37,9 @@ class Element extends Node {
 		const el = this.dom || document.createElement(this.elementProperties.type || 'div');
 		if (this.elementProperties.classes) el.classList.add(this.elementProperties.classes);
 		const content = this.innerHTML;
-		const childs = this.children.map((child, i) => { return child.template();});
+		const childs = this.children.map((child, i) => { 
+			return child.template();
+		});
 		el.appendChild(content);
 		for (let i = 0; i < childs.length; i++) {
 			el.appendChild(childs[i]);
@@ -46,4 +48,4 @@ class Element extends Node {
 	}
 }
 
-module.exports = Element;
+export default Element;

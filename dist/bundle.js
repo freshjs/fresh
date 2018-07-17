@@ -1,9 +1,11 @@
-(function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 class Node {
-    constructor(s = {}, children) {
+    constructor(s = {}, children = []) {
 		this._content = s.content || null;
 		this._parent = s.parent || null;
-		this._children = children || [];
+		this._children = children.map((child) => {
+            return new child();
+        });
 	}
 	
 	set content(c) {
@@ -65,6 +67,29 @@ class Node {
 
 module.exports = Node;
 },{}],2:[function(require,module,exports){
+const Fresh = require('../../index.js');
+const Element = Fresh.Element;
+
+class Header extends Fresh.Element {
+    constructor() {
+        super({el: { type: 'header', classes: 'app-header' }}, '');
+        this.store = {};
+    }
+    
+    template() {
+        const e = document.createElement('header');
+        e.classList.add('app-header');
+        const h1 = document.createElement('h1');
+        const t = document.createTextNode('Hello, World! -- From Header');
+        h1.appendChild(t);
+        e.appendChild(h1);
+        return e;
+    }
+}
+
+
+module.exports = Header;
+},{"../../index.js":5}],3:[function(require,module,exports){
 const Node = require('./Node.js');
 
 class Element extends Node {
@@ -73,6 +98,7 @@ class Element extends Node {
 		this.dom = null;
 		this.elementProperties = { ...settings.el };
 		this.innerHTML = content;
+		this.localStore = settings.localStore || {};
 	}
 	
 	get element() {
@@ -100,10 +126,12 @@ class Element extends Node {
 	}
 	
 	template() {
-		const el = this.dom || document.createElement('div');
+		const el = this.dom || document.createElement(this.elementProperties.type || 'div');
 		if (this.elementProperties.classes) el.classList.add(this.elementProperties.classes);
 		const content = this.innerHTML;
-		const childs = this.children.map((child, i) => { return child.template();});
+		const childs = this.children.map((child, i) => { 
+			return child.template();
+		});
 		el.appendChild(content);
 		for (let i = 0; i < childs.length; i++) {
 			el.appendChild(childs[i]);
@@ -113,36 +141,60 @@ class Element extends Node {
 }
 
 module.exports = Element;
-},{"./Node.js":1}],3:[function(require,module,exports){
+},{"./Node.js":1}],4:[function(require,module,exports){
 const Element = require('./element.js');
 
-// A Fresh View
+/**
+ * Freshjs
+ * A fresh view on things
+ * 
+ */
+
+
+
+
+/**
+ * Fresh main manager
+ * :newNode: is the root of the app
+ * :settings: is a javascript object with different settings
+ * - {
+ * 		store: {								## this tells Fresh to use a store
+ * 			useState: /boolean/					## Should the store use the 'state' naming convention
+ * 			default: {}							## the default structure of the store
+ * 		},
+ * 		renderer: {								## this tells Fresh to use a renderer
+ * 			types: []							## why type(s) should be used? You can have multiple
+ * 		}
+ * - }
+ */
 class Fresh {
-	constructor(newNode = null) {
+	constructor(newNode = null, settings = {}) {
 		this.node = document.querySelector('.node-view');
 		this.root = newNode;
 		this.target = null;
-		
-		// this.manual();
-		
-		// this.walk(this.root);
+		this.renderer = {
+			mode: 'html',
+		}
+		this.store = null;
+		this.Element = Element;
 	}
 	
 	render(node, dom = null) {
-		dom.appendChild(node.template())
-	}
-	
-	manual() {
-		const glxy = new Node('Milky Way', 'title');
-		this.root = glxy;
-		const ss = new Node('Sol -- A solar system', 'solar system');
-		glxy.appendChild(ss);
-		const plnt = new Node('Earth -- A planet', 'Planetary Object');
-		ss.appendChild(plnt);
-		const plnt1 = new Node('Mars -- A much better planet', 'Planetary Object');
-		const plnt2 = new Node('Pluto -- A planet in my heart', 'Planetary Object');
-		ss.appendChild(plnt1);
-		ss.appendChild(plnt2);
+		if (typeof node === 'object' && node instanceof Element) {
+			console.log('object Element', node);
+			this.root = node; 
+		} else if (typeof node === 'function') {
+			console.log('function', node);
+			this.root = new node();
+		} else {
+			console.log('Dont Panic!');
+			return false;
+		}
+		
+		if (dom) this.node = dom;
+		console.log(dom);
+		console.log('Template: ', this.dom(node.template()));
+		this.node.appendChild(this.root.template());
 	}
 	
 	walk(n) {
@@ -165,16 +217,75 @@ class Fresh {
 	createNodeFromData(titleStr, layerStr) {
 		
 	}
+	
+	dom(tag, attrs, ...children) {
+		// Custom Components will be functions
+		if (typeof tag === 'function') {
+			return new tag();
+		}
+		// regular html tags will be strings to create the elements
+		if (typeof tag === 'string') {
+			// fragments to append multiple children to the initial node
+			const fragments = document.createDocumentFragment();
+			// create the DOM element
+			const element = document.createElement(tag);
+			// iterrate over the children
+			children.forEach(child => {
+				// if the child is an HTML Element
+				if (child instanceof HTMLElement) {
+					// append the html element to the fragment container
+					fragments.appendChild(child)
+				// if it's a string
+				} else if (typeof child === 'string') {
+					// create a text Node out of the contents
+					const textnode = document.createTextNode(child)
+					// append the text node to the fragment container
+					fragments.appendChild(textnode)
+				} else {
+					// later other things could not be HTMLElement not strings
+					console.log('not appendable', child);
+				}
+			});
+			
+			element.appendChild(fragments);
+    		// Merge element with attributes
+    		Object.assign(element, attrs);
+			console.log(element);
+    		return element;
+		}
+  	}
 }
 
-module.exports = Fresh;
-},{"./element.js":2}],4:[function(require,module,exports){
-const Element = require('./element.js');
+
+module.exports =  Fresh;
+},{"./element.js":3}],5:[function(require,module,exports){
 const Fresh = require('./fresh.js')
 
-module.exports = {
-  Fresh,
-  Element,
+const f = new Fresh();
+
+module.exports = f;
+
+},{"./fresh.js":4}],6:[function(require,module,exports){
+const Fresh = require('../index.js');
+
+const Header = require('../dist/views/header.js');
+
+class App extends Fresh.Element {
+  constructor() {
+    super({
+      el: {
+        type: 'div',
+        classes: '.app'
+      }
+    }, 'Hello from the App!', [Header]);
+    this.store = {};
+  }
+
+  template() {
+    return Fresh.dom(Header, null, "Hello");
+  }
+
 }
 
-},{"./element.js":2,"./fresh.js":3}]},{},[4]);
+Fresh.render(Fresh.dom(App, null), document.querySelector('#root'));
+},{"../dist/views/header.js":2,"../index.js":5}]},{},[6]);

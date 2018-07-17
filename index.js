@@ -1,7 +1,7 @@
-const Element = require('./element.js');
-const Fresh = require('./fresh.js')
+import Fresh from './fresh.js';
+import Element from './Element.js';
 
-module.exports = {
-  Fresh,
-  Element,
-}
+const f = new Fresh();
+
+export default f;
+export { Element };

@@ -4,11 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": "babel dist/entry.js --out-dir lib",
+    "build-dist": "browserify lib/entry.js -o dist/bundle.js",
+    "build-dist--watch": "watchify dist/entry.js -o dist/bundle.js",
+    "do": "npm run babel && npm run build-dist"
   },
   "author": "Donnie Reese <hi@donniereese.com> (https://www.donniereese.com)",
   "license": "ISC",
   "devDependencies": {
-    "browserify": "^16.2.2"
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.3",
+    "babel-plugin-syntax-jsx": "6.18.0",
+    "babel-plugin-transform-react-jsx": "6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "browserify": "^16.2.2",
+    "parcel-bundler": "^1.9.7"
   }
 }

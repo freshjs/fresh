@@ -1,8 +1,10 @@
 class Node {
-    constructor(s = {}, children) {
+    constructor(s = {}, children = []) {
 		this._content = s.content || null;
 		this._parent = s.parent || null;
-		this._children = children || [];
+		this._children = children.map((child) => {
+            return new child();
+        });
 	}
 	
 	set content(c) {

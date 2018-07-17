@@ -1,0 +1,10 @@
+{
+    "presets": ["react"],
+    "plugins": [
+        "babel-plugin-syntax-jsx",
+        [
+            "babel-plugin-transform-react-jsx",
+            { "pragma": "Fresh.dom" }
+        ]
+    ]
+}

@@ -1,13 +1,9 @@
-const Element = require('./element.js');
-
+import Element from './element.js';
 /**
  * Freshjs
  * A fresh view on things
  * 
  */
-
-
-
 
 /**
  * Fresh main manager
@@ -25,25 +21,35 @@ const Element = require('./element.js');
  */
 class Fresh {
 	constructor(newNode = null, settings = {}) {
-		this.node = document.querySelector('.node-view');
+		this.node = document.querySelector('#root');
 		this.root = newNode;
 		this.target = null;
 		this.renderer = {
 			mode: 'html',
 		}
 		this.store = null;
+		this.Element = Element;
+		this.ordered = 0;
 	}
 	
 	render(node, dom = null) {
-		let n = null;
 		if (typeof node === 'object' && node instanceof Element) {
-			n = node; 
+			// console.log('Instanceof Element: ', node);
+			this.root = node;
+		} else if (typeof node === 'object' && node instanceof HTMLElement) {
+			this.node.appendChild(node);
 		} else if (typeof node === 'function') {
-			n = new node();
+			// console.log('Function: ', node);
+			this.root = new node();
 		} else {
+			console.log('Dont Panic!', typeof node, node);
 			return false;
 		}
-		dom.appendChild(node.template())
+		
+		if (dom) this.node = dom;
+		// console.log(dom);
+		// console.log('Template: ', this.dom(node.template()));
+		// this.node.appendChild(this.root.template());
 	}
 	
 	walk(n) {
@@ -66,6 +72,50 @@ class Fresh {
 	createNodeFromData(titleStr, layerStr) {
 		
 	}
+	
+	dom(tag, attrs, ...children) {
+		console.log(this.ordered);
+		this.ordered++;
+		let component = null;
+		console.log('Component: ' + typeof tag + '\n', tag);
+		// Custom Components will be functions
+		if (typeof tag === 'function') {
+			component = new tag();
+			return component.template();
+		}
+		// regular html tags will be strings to create the elements
+		if (typeof tag === 'string') {
+			// fragments to append multiple children to the initial node
+			const fragments = document.createDocumentFragment();
+			// create the DOM element
+			const element = document.createElement(tag);
+			// iterrate over the children
+			children.forEach(child => {
+				// console.log(child);
+				// if the child is an HTML Element
+				if (child instanceof HTMLElement) {
+					// append the html element to the fragment container
+					fragments.appendChild(child)
+				// if it's a string
+				} else if (typeof child === 'string') {
+					// create a text Node out of the contents
+					const textnode = document.createTextNode(child)
+					// append the text node to the fragment container
+					fragments.appendChild(textnode)
+				} else {
+					// later other things could not be HTMLElement not strings
+					// console.log('not appendable', child);
+				}
+			});
+			
+			element.appendChild(fragments);
+    		// Merge element with attributes
+    		Object.assign(element, attrs);
+			// console.log(element);
+    		return element;
+		}
+  	}
 }
 
-module.exports = Fresh;
+
+export default Fresh;
