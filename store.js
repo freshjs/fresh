@@ -1,5 +1,6 @@
 class Store {
-    constructor(default = {}) {
+    constructor() {
     }
 }
-        
+
+export default Store;

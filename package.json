@@ -1,8 +1,8 @@
 {
-  "name": "fresh",
-  "version": "0.4.0",
+  "name": "freshjs-core",
+  "version": "0.4.2",
   "description": "",
-  "main": "index.js",
+  "main": "lib/fresh.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel": "babel dist/entry.js --out-dir lib",
@@ -15,6 +15,16 @@
     "type": "git",
     "url": "https://github.com/donniereese/fresh"
   },
+  "keywords": [
+    "javascript",
+    "framework",
+    "component",
+    "web",
+    "state",
+    "fresh",
+    "freshjs",
+    "fresh.js"
+  ],
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "6.26.0",

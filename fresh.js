@@ -1,3 +1,4 @@
+import Store from './store.js';
 import Element from './element.js';
 /**
  * Freshjs
@@ -27,7 +28,7 @@ class Fresh {
 		this.renderer = {
 			mode: 'html',
 		}
-		this.store = null;
+		this.store = new Store();
 		this.Element = Element;
 		this.ordered = 0;
 	}
@@ -48,7 +49,6 @@ class Fresh {
 		}
 		
 		if (dom) this.node = dom;
-		// console.log(dom);
 		// console.log('Template: ', this.dom(node.template()));
 		// this.node.appendChild(this.root.template());
 	}
