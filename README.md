@@ -37,5 +37,12 @@ class App extends Fresh.Element {
 Fresh.render(App, document.querySelector('#app'));
 ```
 
+### Running _( with Parcel )_
+```
+$ parcel public/index.html --out-dir dist
+Server running at http://localhost:1234
+✨  Built in 643ms.
+```
+
 ## Recommendations
 **Fresh.js** was developed and tested using the [Parcel](https://parceljs.org/ "Parcel JS Homepage"). While it is absolutely possible to use **Webpack**, I currently do not have instructions ready for such an actively-developed and growing framework, but it's on the list.
