@@ -1,5 +1,5 @@
 {
-    "presets": ["react"],
+    "presets": ["react", "env"],
     "plugins": [
         "babel-plugin-syntax-jsx",
         [

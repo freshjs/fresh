@@ -1,6 +1,21 @@
 # Fresh.js
 > **Fresh.js** is a rendering framework started as an experiemental project to understand current rendering frameworks like React & Vue.
 
+<hr>
+
+<h1 align='center'>🚨 Status: Severe Case of Alpha 🚨</h1>
+<h2 align='center'> 🚧 🚧 Read before using 🚧 🚧 </h2>
+<p align='center'>
+This package is currently under active development and should be considered unstable. There is heaving retooling, restructuring, reconfiguring, reflowing, hard-hat zone, construction 500ft ahead, men working overhead, watch your head.
+</p>
+
+<p align='center'>
+That said, there is a Github repository that you can always submit issues to.
+👍
+</p>
+
+<hr>
+
 ## freshjs-core
 This is the core framework for **Fresh.js**. This is all you need to work with **Fresh.js**.
 

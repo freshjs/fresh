@@ -1,6 +1,5 @@
 node_modules
 .cache/*.json
-dist/*
 parcel
 .cache/demo/dist
 lib/bundle.js

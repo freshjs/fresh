@@ -1,11 +1,18 @@
-import Fresh from './fresh.js';
-// import Element from './element.js';
-// 
-// // New fresh
-const f = new Fresh();
-// 
-// export default f;
-// export Element;
+'use strict';
 
-export default f;
-export Element from './element.js';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Element = undefined;
+
+var _index = require('./dist/index.js');
+
+var _fresh = _interopRequireDefault(_index);
+
+var _element = _interopRequireDefault(_index);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+
+exports.default = _fresh.default;
+exports.Element = _element.Element;

@@ -3,7 +3,6 @@ import Node from './Node.js';
 export default class Element extends Node {
 	constructor(settings = {}, content = '', children = []) {
 		super(settings, children);
-		console.log('womp');
 		this.dom = null;
 		this.elementProperties = settings.el || null;
 		this.innerHTML = content;

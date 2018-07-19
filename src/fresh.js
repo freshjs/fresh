@@ -1,10 +1,11 @@
 // import Store from './store.js';
-import Element from './element.js';
+import Element from './element';
 /**
  * Freshjs
  * A fresh view on things
  *
  */
+
 export default class Fresh {
 	constructor(newNode = null, settings = {}) {
 		this.node = document.querySelector('#root');

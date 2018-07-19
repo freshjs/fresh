@@ -1,11 +1,11 @@
 {
   "name": "freshjs-core",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "babel": "babel dist/entry.js --out-dir lib",
+    "babel": "babel src --out-dir dist",
     "build-dist": "browserify lib/entry.js -o dist/bundle.js",
     "build-dist--watch": "watchify dist/entry.js -o dist/bundle.js",
     "do": "npm run babel && npm run build-dist"
