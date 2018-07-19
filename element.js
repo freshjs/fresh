@@ -1,10 +1,11 @@
 import Node from './Node.js';
 
-class Element extends Node {
-	constructor(settings, content = '', children = []) {
+export default class Element extends Node {
+	constructor(settings = {}, content = '', children = []) {
 		super(settings, children);
+		console.log('womp');
 		this.dom = null;
-		this.elementProperties = settings.el;
+		this.elementProperties = settings.el || null;
 		this.innerHTML = content;
 		this.localStore = settings.localStore || {};
 	}
@@ -47,5 +48,3 @@ class Element extends Node {
 		return el;
 	}
 }
-
-export default Element;

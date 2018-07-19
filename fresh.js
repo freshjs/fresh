@@ -1,26 +1,11 @@
-import Store from './store.js';
+// import Store from './store.js';
 import Element from './element.js';
 /**
  * Freshjs
  * A fresh view on things
- * 
+ *
  */
-
-/**
- * Fresh main manager
- * :newNode: is the root of the app
- * :settings: is a javascript object with different settings
- * - {
- * 		store: {								## this tells Fresh to use a store
- * 			useState: /boolean/					## Should the store use the 'state' naming convention
- * 			default: {}							## the default structure of the store
- * 		},
- * 		renderer: {								## this tells Fresh to use a renderer
- * 			types: []							## why type(s) should be used? You can have multiple
- * 		}
- * - }
- */
-class Fresh {
+export default class Fresh {
 	constructor(newNode = null, settings = {}) {
 		this.node = document.querySelector('#root');
 		this.root = newNode;
@@ -28,31 +13,38 @@ class Fresh {
 		this.renderer = {
 			mode: 'html',
 		}
-		this.store = new Store();
-		this.Element = Element;
+		// this.store = new Store();
+		this.Element = new Element();
+		// this.ViewElement = ViewElement;
 		this.ordered = 0;
 	}
-	
+
 	render(node, dom = null) {
 		if (typeof node === 'object' && node instanceof Element) {
-			// console.log('Instanceof Element: ', node);
+		// node has already been instantiated and is an Fresh Element
+			console.log('Instanceof Element: ', node);
 			this.root = node;
 		} else if (typeof node === 'object' && node instanceof HTMLElement) {
-			// console.log(node);
+		// node has already been instantiated and is an HTMLElement (DOM Element)
 			this.node.appendChild(node);
 		} else if (typeof node === 'function') {
-			// console.log('Function: ', node);
-			this.root = new node();
+		// node has not been instantiated.  Instantiated it!
+			console.log('Function: ', node);
+			node = new node();
 		} else {
-			console.log('Dont Panic!', typeof node, node);
 			return false;
 		}
 		
+		console.log(node);
+
+		// If there is a valid query selector, assign it to the DOM;
 		if (dom) this.node = dom;
-		// console.log('Template: ', this.dom(node.template()));
-		// this.node.appendChild(this.root.template());
+
+		const t = this.dom(node.template());
+
+		this.node.appendChild(t);
 	}
-	
+
 	walk(n) {
 		console.log(n);
 		let list = n.children;
@@ -61,7 +53,7 @@ class Fresh {
 			this.walk(list[i]);
 		}
 	}
-	
+
 	parseJson(j) {
 		const data = (typeof j === 'string') ? j : j.parse(j);
 		let keys = Object.keys(j);
@@ -69,12 +61,15 @@ class Fresh {
 			const nodeData = data[keys[i]];
 		}
 	}
-	
+
 	createNodeFromData(titleStr, layerStr) {
-		
+
 	}
-	
+
 	dom(tag, attrs, ...children) {
+		console.log('Tag: ', tag);
+		console.log('Attributes: ', attrs);
+		console.log('Children: ', children);
 		this.ordered++;
 		let component = null;
 		// console.log('Component: ' + typeof tag + '\n', tag);
@@ -83,8 +78,9 @@ class Fresh {
 			component = new tag();
 			return component.template();
 		}
-		
-		
+
+		console.log('Attributes: ', attrs);
+
 		// regular html tags will be strings to create the elements
 		if (typeof tag === 'string') {
 			// console.log(tag, attrs, children);
@@ -116,7 +112,7 @@ class Fresh {
 					// console.log('not appendable', child);
 				}
 			});
-			
+
 			element.appendChild(fragments);
 			// console.log("Appended to: ", element);
     		// Merge element with attributes
@@ -124,8 +120,10 @@ class Fresh {
 			// console.log(element);
     		return element;
 		}
+
+		// html element
+		if (typeof tag === 'object' && tag instanceof HTMLElement) {
+			return tag;
+		}
   	}
 }
-
-
-export default Fresh;

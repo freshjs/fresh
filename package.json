@@ -2,7 +2,7 @@
   "name": "freshjs-core",
   "version": "0.4.3",
   "description": "",
-  "main": "lib/fresh.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel": "babel dist/entry.js --out-dir lib",
@@ -30,9 +30,15 @@
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
     "babel-plugin-syntax-jsx": "6.18.0",
+    "babel-plugin-transform-es2015-modules-amd": "^6.24.1",
     "babel-plugin-transform-react-jsx": "6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
     "browserify": "^16.2.2",
     "parcel-bundler": "^1.9.7"
+  },
+  "dependencies": {
+    "element.js": "^1.2.0"
   }
 }

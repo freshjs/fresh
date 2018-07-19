@@ -1,4 +1,4 @@
-class Node {
+export default class Node {
     constructor(s = {}, children = []) {
 		this._content = s.content || null;
 		this._parent = s.parent || null;
@@ -63,5 +63,3 @@ class Node {
 		return document.createTextNode(this.content);
 	}
 }
-
-module.exports = Node;

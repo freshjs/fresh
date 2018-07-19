@@ -2,4 +2,8 @@ node_modules
 .cache/*.json
 dist/*
 parcel
-.cache/
+.cache/demo/dist
+lib/bundle.js
+demo/.cache
+demo/.cache/
+demo/dist/

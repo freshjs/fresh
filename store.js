@@ -1,6 +1,4 @@
-class Store {
+export default class Store {
     constructor() {
     }
 }
-
-export default Store;
