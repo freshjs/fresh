@@ -6,6 +6,15 @@ export default class Node {
             return new child();
         });
 	}
+    
+    get children() {
+		return this._children;
+	}
+	
+	set children(ch) {
+		this._children = ch;
+		// this.render();
+	}
 	
 	set content(c) {
 		if (typeof c != 'string') c.toString();
@@ -29,6 +38,10 @@ export default class Node {
 	
 	get children() {
 		return this._children;
+	}
+    
+    inherits(name, func) {
+		if (!Node.prototype[name] && funct) Node.prototype[name] = func;
 	}
 
 	appendChild(child) {
