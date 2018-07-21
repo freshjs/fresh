@@ -5,10 +5,10 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "babel": "babel src --out-dir dist",
-    "build-dist": "browserify lib/entry.js -o dist/bundle.js",
-    "build-dist--watch": "watchify dist/entry.js -o dist/bundle.js",
-    "do": "npm run babel && npm run build-dist"
+    "build": "babel src --out-dir dist",
+    "defunkt-browserify": "browserify lib/entry.js -o dist/bundle.js",
+    "build-watch": "babel --watch src --out-dir dist",
+    "defunkt-do": "npm run babel && npm run build-dist"
   },
   "author": "Donnie Reese <hi@donniereese.com> (https://www.donniereese.com)",
   "repository": {

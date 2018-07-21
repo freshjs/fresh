@@ -21,29 +21,42 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Element = function (_Node) {
 	_inherits(Element, _Node);
 
-	function Element() {
-		var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	function Element(sets) {
 		var content = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 		var children = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
 		_classCallCheck(this, Element);
 
-		var _this = _possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, settings, children));
+		var _this = _possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, sets, children));
 
 		_this.dom = null;
-		_this.elementProperties = settings.el || null;
+		_this.elementProperties = sets ? sets.el : null;
 		_this.innerHTML = content;
-		_this.localStore = settings.localStore || {};
+		_this.localStore = sets ? sets.localStore : {};
+		// TODO this is the props attributes stuff?
+		_this._a = [];
+
+		// this.c = children;
 		return _this;
 	}
 
 	_createClass(Element, [{
+		key: 'inherits',
+		value: function inherits(name, func) {
+			if (!Element.prototype[name] && funct) Element.prototype[name] = func;
+		}
+
+		//TODO Element.appendEvent		(React: mount)
+		//TODO Element.unappendEvent	(React: unmount)
+		//TODO
+
+	}, {
 		key: 'template',
 		value: function template() {
 			var el = this.dom || document.createElement(this.elementProperties.type || 'div');
 			if (this.elementProperties.classes) el.classList.add(this.elementProperties.classes);
 			var content = this.innerHTML;
-			var childs = this.children.map(function (child, i) {
+			var childs = this._children.map(function (child, i) {
 				return child.template();
 			});
 			el.appendChild(content);
@@ -67,6 +80,14 @@ var Element = function (_Node) {
 		},
 		set: function set(t) {
 			this.elementProperties.type = t;
+		}
+	}, {
+		key: 'attrs',
+		get: function get() {
+			return this._a;
+		},
+		set: function set(atr) {
+			this._a = atr;
 		}
 	}, {
 		key: 'innerHTML',

@@ -23,6 +23,11 @@ var Node = function () {
 	}
 
 	_createClass(Node, [{
+		key: 'inherits',
+		value: function inherits(name, func) {
+			if (!Node.prototype[name] && funct) Node.prototype[name] = func;
+		}
+	}, {
 		key: 'appendChild',
 		value: function appendChild(child) {
 			if (child) this._children.push(child);
@@ -59,6 +64,15 @@ var Node = function () {
 			return document.createTextNode(this.content);
 		}
 	}, {
+		key: 'children',
+		get: function get() {
+			return this._children;
+		},
+		set: function set(ch) {
+			this._children = ch;
+			// this.render();
+		}
+	}, {
 		key: 'content',
 		set: function set(c) {
 			if (typeof c != 'string') c.toString();
@@ -77,11 +91,6 @@ var Node = function () {
 		},
 		get: function get() {
 			return this._parent;
-		}
-	}, {
-		key: 'children',
-		get: function get() {
-			return this._children;
 		}
 	}]);
 
