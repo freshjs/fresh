@@ -32,13 +32,10 @@ Object.prototype.map = function (mapper) {
     return output;
 };
 
-// // New fresh
-var f = new _fresh2.default();
-var b = new _element2.default();
-// 
-// export default f;
-// export Element;
+// Check if there is a Fresh instance on the window object
+// If not, assign it.
+if (!window.Fresh) window.Fresh = new _fresh2.default();
 
-exports.default = f;
+exports.default = window.Fresh;
 exports.Element = _element2.default;
 exports.Node = _node2.default;

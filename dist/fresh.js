@@ -17,9 +17,7 @@ var _node = require('./node');
 
 var _node2 = _interopRequireDefault(_node);
 
-var _Iterator = require('./helpers/Iterator');
-
-var _Iterator2 = _interopRequireDefault(_Iterator);
+var _index = require('./helpers/fresh-helpers/index.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -126,7 +124,7 @@ var Fresh = function () {
 		this.Element = new _element2.default();
 		// // this.ViewElement = ViewElement;
 		this.ordered = 0;
-		this.Iterator = _Iterator2.default;
+		this.Iterator = _index.Iterator;
 	}
 
 	_createClass(Fresh, [{
@@ -139,10 +137,13 @@ var Fresh = function () {
 		value: function render(node) {
 			var dom = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
+			console.log('Fresh.render()');
 			if ((typeof node === 'undefined' ? 'undefined' : _typeof(node)) === 'object' && node instanceof _element2.default) {
 				// node has already been instantiated and is an Fresh Element
 				// console.log('Instanceof Element: ', node);
-				this.root = node;
+				var _t = node.template();
+				node._dom.parentNode.replaceChild(_t, dom);
+				node._dom = _t;
 			} else if ((typeof node === 'undefined' ? 'undefined' : _typeof(node)) === 'object' && node instanceof HTMLElement) {
 				// node has already been instantiated and is an HTMLElement (DOM Element)
 				this.node.appendChild(node);
@@ -220,17 +221,22 @@ var Fresh = function () {
 			}
 
 			if (typeof tag === 'function') {
+				// console.log(tag, '\n\n________\n\n');
 				// if no attributes were passed, make it an empty array
 				if (!attrs) attrs = [];
-				if (attrs) console.log(Object.keys(attrs));
-				component = new tag();
-				// console.log(children);
+				component = new tag(attrs);
 				component.children = children;
-				return component.template();
+				var t = component.template();
+				component._dom = t;
+
+				// console.log('Tracker:\n\n\n', tag, attrs, children);
+
+				return t;
 			}
 
 			// regular html tags will be strings to create the elements
 			if (typeof tag === 'string') {
+				// console.log('Tracker:\n\n\n', tag, attrs, children);
 				// console.log(tag, attrs, children);
 				// fragments to append multiple children to the initial node
 				var fragments = document.createDocumentFragment();

@@ -1,7 +1,8 @@
 // import Store from './store.js';
 import Element from './element';
 import Node from './node';
-import Iterator from './helpers/Iterator';
+import { Iterator } from './helpers/fresh-helpers/index.js';
+
 /**
  * Freshjs
  * A fresh view on things
@@ -103,10 +104,13 @@ export default class Fresh {
 	}
 
 	render(node, dom = null) {
+		console.log(`Fresh.render()`);
 		if (typeof node === 'object' && node instanceof Element) {
 		// node has already been instantiated and is an Fresh Element
 			// console.log('Instanceof Element: ', node);
-			this.root = node;
+			const t = node.template();
+			node._dom.parentNode.replaceChild(t, dom);
+			node._dom = t;
 		} else if (typeof node === 'object' && node instanceof HTMLElement) {
 		// node has already been instantiated and is an HTMLElement (DOM Element)
 			this.node.appendChild(node);
@@ -173,17 +177,22 @@ export default class Fresh {
 		let component = null;
 		// Custom Components will be functions
 		if (typeof tag === 'function') {
+			// console.log(tag, '\n\n________\n\n');
 			// if no attributes were passed, make it an empty array
 			if (!attrs) attrs = [];
-			if (attrs) console.log(Object.keys(attrs));
-			component = new tag();
-			// console.log(children);
+			component = new tag(attrs);
 			component.children = children;
-			return component.template();
+			const t = component.template();
+			component._dom = t;
+			
+			// console.log('Tracker:\n\n\n', tag, attrs, children);
+			
+			return t;
 		}
 
 		// regular html tags will be strings to create the elements
 		if (typeof tag === 'string') {
+			// console.log('Tracker:\n\n\n', tag, attrs, children);
 			// console.log(tag, attrs, children);
 			// fragments to append multiple children to the initial node
 			const fragments = document.createDocumentFragment();

@@ -6,9 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _Node2 = require('./Node.js');
+var _node = require('./node');
 
-var _Node3 = _interopRequireDefault(_Node2);
+var _node2 = _interopRequireDefault(_node);
+
+var _store = require('./store');
+
+var _store2 = _interopRequireDefault(_store);
+
+var _index = require('./helpers/fresh-helpers/index.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18,6 +24,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Element is a base extendable class that Elements on the page extend to.
+ * It takes in `sets`, which are akin to react's props.
+ * @type {String}
+ */
 var Element = function (_Node) {
 	_inherits(Element, _Node);
 
@@ -27,14 +38,26 @@ var Element = function (_Node) {
 
 		_classCallCheck(this, Element);
 
+		// This is the HTMLElement reference; null means it is not set
 		var _this = _possibleConstructorReturn(this, (Element.__proto__ || Object.getPrototypeOf(Element)).call(this, sets, children));
+		// Call the Node constructor
+		// TODO node should take children, parent
 
-		_this.dom = null;
-		_this.elementProperties = sets ? sets.el : null;
+
+		_this._dom = null;
+		// TODO Element - What should be stored or should it be stored? defaulting to sets for now
+		_this.elementProperties = sets;
+		// TODO Element - this might not need to exist
 		_this.innerHTML = content;
-		_this.localStore = sets ? sets.localStore : {};
-		// TODO this is the props attributes stuff?
-		_this._a = [];
+		// localStore is the local state of this element
+		// set to null until the first time someone uses it, 
+		// or unless there is a setting triggered to always use it initially
+		// this.localStore = new Store();
+		_this.localStore = null;
+		// set the Sets property
+		_this._sets = sets || [];
+		// set the previous sets property
+		_this._prevSets = [];
 
 		// this.c = children;
 		return _this;
@@ -44,6 +67,13 @@ var Element = function (_Node) {
 		key: 'inherits',
 		value: function inherits(name, func) {
 			if (!Element.prototype[name] && funct) Element.prototype[name] = func;
+		}
+	}, {
+		key: 'updateStore',
+		value: function updateStore(newSt) {
+			var same = (0, _index.deepEquals)(this._revSets, this._sets);
+			this.store = Object.assign(this.store, newSt);
+			if (!same) Fresh.render(this, this._dom);
 		}
 
 		//TODO Element.appendEvent		(React: mount)
@@ -66,6 +96,16 @@ var Element = function (_Node) {
 			return el;
 		}
 	}, {
+		key: 'sets',
+		get: function get() {
+			return this._sets;
+		},
+		set: function set(sTS) {
+			this._revSets = this._sets;
+			this._sets = sTS;
+			if (!(0, _index.deepEquals)(this._revSets, this._sets)) Fresh.render(this, this._dom);
+		}
+	}, {
 		key: 'element',
 		get: function get() {
 			return this.dom || null;
@@ -84,10 +124,10 @@ var Element = function (_Node) {
 	}, {
 		key: 'attrs',
 		get: function get() {
-			return this._a;
+			return this._sets;
 		},
 		set: function set(atr) {
-			this._a = atr;
+			this._sets = atr;
 		}
 	}, {
 		key: 'innerHTML',
@@ -97,9 +137,19 @@ var Element = function (_Node) {
 		set: function set(d) {
 			this.content = document.createTextNode(d);
 		}
+	}, {
+		key: 'store',
+		get: function get() {
+			if (!this.localStore) this.localStore = new _store2.default();
+			return this.localStore.store;
+		},
+		set: function set(sV) {
+			if (!this.localStore) this.localStore = new _store2.default();
+			this.localStore.reset(sV);
+		}
 	}]);
 
 	return Element;
-}(_Node3.default);
+}(_node2.default);
 
 exports.default = Element;

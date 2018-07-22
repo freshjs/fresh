@@ -15,12 +15,9 @@ Object.prototype.map = function(mapper) {
     return output;
 }
 
-// // New fresh
-const f = new Fresh();
-const b = new Element();
-// 
-// export default f;
-// export Element;
+// Check if there is a Fresh instance on the window object
+// If not, assign it.
+if (!window.Fresh) window.Fresh = new Fresh();
 
-export default f;
+export default window.Fresh;
 export { Element, Node };
