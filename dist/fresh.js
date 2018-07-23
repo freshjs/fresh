@@ -125,6 +125,7 @@ var Fresh = function () {
 		// // this.ViewElement = ViewElement;
 		this.ordered = 0;
 		this.Iterator = _index.Iterator;
+		this.deepEquals = _index.deepEquals;
 	}
 
 	_createClass(Fresh, [{

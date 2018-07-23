@@ -1,3 +1,4 @@
+import Fresh from './index';
 /**
  * Store is a stable container for basic state management
  * @type {Object}

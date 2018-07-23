@@ -1,7 +1,7 @@
 // import Store from './store.js';
 import Element from './element';
 import Node from './node';
-import { Iterator } from './helpers/fresh-helpers/index.js';
+import { Iterator, deepEquals } from './helpers/fresh-helpers/index.js';
 
 /**
  * Freshjs
@@ -97,6 +97,7 @@ export default class Fresh {
 		// // this.ViewElement = ViewElement;
 		this.ordered = 0;
 		this.Iterator = Iterator;
+		this.deepEquals = deepEquals;
 	}
 
 	get store() {

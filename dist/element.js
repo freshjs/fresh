@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _index = require('./index');
+
+var _index2 = _interopRequireDefault(_index);
+
 var _node = require('./node');
 
 var _node2 = _interopRequireDefault(_node);
@@ -13,8 +17,6 @@ var _node2 = _interopRequireDefault(_node);
 var _store = require('./store');
 
 var _store2 = _interopRequireDefault(_store);
-
-var _index = require('./helpers/fresh-helpers/index.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -71,9 +73,9 @@ var Element = function (_Node) {
 	}, {
 		key: 'updateStore',
 		value: function updateStore(newSt) {
-			var same = (0, _index.deepEquals)(this._revSets, this._sets);
+			var same = _index2.default.deepEquals(this._revSets, this._sets);
 			this.store = Object.assign(this.store, newSt);
-			if (!same) Fresh.render(this, this._dom);
+			if (!same) _index2.default.render(this, this._dom);
 		}
 
 		//TODO Element.appendEvent		(React: mount)
@@ -103,7 +105,7 @@ var Element = function (_Node) {
 		set: function set(sTS) {
 			this._revSets = this._sets;
 			this._sets = sTS;
-			if (!(0, _index.deepEquals)(this._revSets, this._sets)) Fresh.render(this, this._dom);
+			if (!_index2.default.deepEquals(this._revSets, this._sets)) _index2.default.render(this, this._dom);
 		}
 	}, {
 		key: 'element',

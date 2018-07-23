@@ -1,6 +1,6 @@
+import Fresh from './index';
 import Node from './node';
 import Store from './store';
-import { deepEquals } from './helpers/fresh-helpers/index.js'
 
 /**
  * Element is a base extendable class that Elements on the page extend to.
@@ -38,7 +38,7 @@ export default class Element extends Node {
 	set sets(sTS) {
 		this._revSets = this._sets;
 		this._sets = sTS;
-		if (!deepEquals(this._revSets, this._sets)) Fresh.render(this, this._dom);
+		if (!Fresh.deepEquals(this._revSets, this._sets)) Fresh.render(this, this._dom);
 	}
 	
 	get element() {
@@ -88,7 +88,7 @@ export default class Element extends Node {
 	}
 	
 	updateStore(newSt) {
-		let same = deepEquals(this._revSets, this._sets);
+		let same = Fresh.deepEquals(this._revSets, this._sets);
 		this.store = Object.assign(this.store, newSt);
 		if (!same) Fresh.render(this, this._dom);
 	}
