@@ -1,6 +1,6 @@
 {
   "name": "freshjs-core",
-  "version": "0.4.4a",
+  "version": "0.4.5",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
