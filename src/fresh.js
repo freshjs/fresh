@@ -99,6 +99,16 @@ export default class Fresh {
 		this.Iterator = Iterator;
 	}
 
+	get store() {
+		if (!this.localStore) this.localStore = new Store();
+		return this.localStore.store;
+	}
+
+	set store(sV) {
+		if (!this.localStore) this.localStore = new Store();
+		this.localStore.reset(sV);
+	}
+
 	inherits(name, func) {
 		if (!Fresh.prototype[name] && funct) Fresh.prototype[name] = func;
 	}

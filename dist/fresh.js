@@ -298,6 +298,16 @@ var Fresh = function () {
 				return tag;
 			}
 		}
+	}, {
+		key: 'store',
+		get: function get() {
+			if (!this.localStore) this.localStore = new Store();
+			return this.localStore.store;
+		},
+		set: function set(sV) {
+			if (!this.localStore) this.localStore = new Store();
+			this.localStore.reset(sV);
+		}
 	}]);
 
 	return Fresh;
