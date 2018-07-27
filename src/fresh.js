@@ -122,6 +122,7 @@ export default class Fresh {
 			const t = node.template();
 			node._dom.parentNode.replaceChild(t, dom);
 			node._dom = t;
+			node.elementRendered();
 		} else if (typeof node === 'object' && node instanceof HTMLElement) {
 		// node has already been instantiated and is an HTMLElement (DOM Element)
 			this.node.appendChild(node);
@@ -195,9 +196,9 @@ export default class Fresh {
 			component.children = children;
 			const t = component.template();
 			component._dom = t;
-			
+
 			// console.log('Tracker:\n\n\n', tag, attrs, children);
-			
+
 			return t;
 		}
 
@@ -212,6 +213,7 @@ export default class Fresh {
 			// itterate over attributes
 			for (let attr in attrs) {
 				// console.log('Attribute Pair: ', attr, attrs[attr]);
+				let t = 'attr';
 				let a = null;
 				let v = attrs[attr];
 				switch(attr) {
@@ -223,8 +225,15 @@ export default class Fresh {
 						a = 'class';
 						v = v.replace('.', '');
 						break;
+					case 'onInput':
+						t = 'evnt';
+						a = 'input';
+						break;
+					case 'onChange':
+						a = 'onchange';
 				}
-				if (a) element.setAttribute(a, v);
+				if (t === 'attr' && a) element.setAttribute(a, v);
+				if (t === 'evnt' && a) element.addEventListener(a, v);
 			}
 
 			// iterrate over the children

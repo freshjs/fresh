@@ -77,6 +77,20 @@ var Element = function (_Node) {
 			this.store = Object.assign(this.store, newSt);
 			if (!same) _index2.default.render(this, this._dom);
 		}
+	}, {
+		key: 'elementRendering',
+		value: function elementRendering() {}
+	}, {
+		key: 'elementRendered',
+		value: function elementRendered() {}
+	}, {
+		key: 'elementUpdated',
+		value: function elementUpdated() {
+			console.log('updated');
+		}
+	}, {
+		key: 'elementRemoving',
+		value: function elementRemoving() {}
 
 		//TODO Element.appendEvent		(React: mount)
 		//TODO Element.unappendEvent	(React: unmount)
@@ -105,7 +119,10 @@ var Element = function (_Node) {
 		set: function set(sTS) {
 			this._revSets = this._sets;
 			this._sets = sTS;
-			if (!_index2.default.deepEquals(this._revSets, this._sets)) _index2.default.render(this, this._dom);
+			if (!_index2.default.deepEquals(this._revSets, this._sets)) {
+				_index2.default.render(this, this._dom);
+				this.elementUpdated();
+			}
 		}
 	}, {
 		key: 'element',

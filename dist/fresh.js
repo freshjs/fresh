@@ -145,6 +145,7 @@ var Fresh = function () {
 				var _t = node.template();
 				node._dom.parentNode.replaceChild(_t, dom);
 				node._dom = _t;
+				node.elementRendered();
 			} else if ((typeof node === 'undefined' ? 'undefined' : _typeof(node)) === 'object' && node instanceof HTMLElement) {
 				// node has already been instantiated and is an HTMLElement (DOM Element)
 				this.node.appendChild(node);
@@ -246,6 +247,7 @@ var Fresh = function () {
 				// itterate over attributes
 				for (var attr in attrs) {
 					// console.log('Attribute Pair: ', attr, attrs[attr]);
+					var _t2 = 'attr';
 					var _a2 = null;
 					var v = attrs[attr];
 					switch (attr) {
@@ -257,8 +259,15 @@ var Fresh = function () {
 							_a2 = 'class';
 							v = v.replace('.', '');
 							break;
+						case 'onInput':
+							_t2 = 'evnt';
+							_a2 = 'input';
+							break;
+						case 'onChange':
+							_a2 = 'onchange';
 					}
-					if (_a2) element.setAttribute(_a2, v);
+					if (_t2 === 'attr' && _a2) element.setAttribute(_a2, v);
+					if (_t2 === 'evnt' && _a2) element.addEventListener(_a2, v);
 				}
 
 				// iterrate over the children

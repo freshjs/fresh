@@ -38,7 +38,10 @@ export default class Element extends Node {
 	set sets(sTS) {
 		this._revSets = this._sets;
 		this._sets = sTS;
-		if (!Fresh.deepEquals(this._revSets, this._sets)) Fresh.render(this, this._dom);
+		if (!Fresh.deepEquals(this._revSets, this._sets)) {
+			Fresh.render(this, this._dom);
+			this.elementUpdated();
+		}
 	}
 	
 	get element() {
@@ -91,6 +94,21 @@ export default class Element extends Node {
 		let same = Fresh.deepEquals(this._revSets, this._sets);
 		this.store = Object.assign(this.store, newSt);
 		if (!same) Fresh.render(this, this._dom);
+	}
+	
+	elementRendering() {
+		
+	}
+	
+	elementRendered() {
+	}
+	
+	elementUpdated() {
+		console.log('updated');
+	}
+	
+	elementRemoving() {
+		
 	}
 
 
