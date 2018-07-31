@@ -113,9 +113,13 @@ export default class Fresh {
 	inherits(name, func) {
 		if (!Fresh.prototype[name] && funct) Fresh.prototype[name] = func;
 	}
+	
+	use() {
+	}
 
 	render(node, dom = null) {
 		console.log(`Fresh.render()`);
+		console.log(node);
 		if (typeof node === 'object' && node instanceof Element) {
 		// node has already been instantiated and is an Fresh Element
 			// console.log('Instanceof Element: ', node);
@@ -140,6 +144,16 @@ export default class Fresh {
 		const t = this.dom(node.template());
 
 		this.node.appendChild(t);
+	}
+	
+	/**
+	 * Removes or "unmounts" an Element from the dom.
+	 * @method remove
+	 * @param  {[type]} node [description]
+	 * @return {[type]}      [description]
+	 */
+	remove(node) {
+		
 	}
 
 	walk(n) {
@@ -191,6 +205,8 @@ export default class Fresh {
 		if (typeof tag === 'function') {
 			// console.log(tag, '\n\n________\n\n');
 			// if no attributes were passed, make it an empty array
+			// console.log('\nElement Class');
+			// console.log(tag, attrs, children);
 			if (!attrs) attrs = [];
 			component = new tag(attrs);
 			component.children = children;
@@ -205,6 +221,7 @@ export default class Fresh {
 		// regular html tags will be strings to create the elements
 		if (typeof tag === 'string') {
 			// console.log('Tracker:\n\n\n', tag, attrs, children);
+			// console.log('\nHTML String');
 			// console.log(tag, attrs, children);
 			// fragments to append multiple children to the initial node
 			const fragments = document.createDocumentFragment();
@@ -271,6 +288,7 @@ export default class Fresh {
 
 		// html element
 		if (typeof tag === 'object' && tag instanceof HTMLElement) {
+			console.log(tag);
 			return tag;
 		}
   	}

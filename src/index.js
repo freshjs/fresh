@@ -1,6 +1,7 @@
 import Fresh from './fresh.js';
 import Element from './element.js';
 import Node from './node.js';
+import Store from './store.js';
 
 // add the map to the object prototype
 Object.prototype.map = function(mapper) {
@@ -20,4 +21,4 @@ Object.prototype.map = function(mapper) {
 if (!window.Fresh) window.Fresh = new Fresh();
 
 export default window.Fresh;
-export { Element, Node };
+export { Element, Node, Store };

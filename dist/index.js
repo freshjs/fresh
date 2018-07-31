@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Node = exports.Element = undefined;
+exports.Store = exports.Node = exports.Element = undefined;
 
 var _fresh = require('./fresh.js');
 
@@ -16,6 +16,10 @@ var _element2 = _interopRequireDefault(_element);
 var _node = require('./node.js');
 
 var _node2 = _interopRequireDefault(_node);
+
+var _store = require('./store.js');
+
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,3 +43,4 @@ if (!window.Fresh) window.Fresh = new _fresh2.default();
 exports.default = window.Fresh;
 exports.Element = _element2.default;
 exports.Node = _node2.default;
+exports.Store = _store2.default;
