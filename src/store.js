@@ -13,26 +13,56 @@ export default class Store {
         
         this.reset(st);
     }
-    
+
+    /**
+     * [get] store
+     * 
+     * get the value of the store
+     */
     get store() {
         return this._store;
     }
-    
+
+    /**
+     * [set] store
+     * 
+     * set the store
+     */
     set store(sV) {
         this._store = sV;
     }
-    
+
+    /**
+     * inheritable
+     * 
+     * define objects that can inherite the store as a local store
+     */
     inheritable() {
     }
-    
+
+    /**
+     * reset
+     * @accepts storeState as sV
+     * 
+     * Resets the state, optionally with a base store to reset to
+     */
     reset(sV) {
         this._store = sV;
     }
-    
+
+    /**
+     * inheritableTemplate
+     * 
+     * 
+     */
     inheritableTemplate() {
         return <div></div>;
     }
-    
+
+    /**
+     * 
+     * 
+     */
     template(children) {
         if (this.isInheritable) return this.inheritableTemplate();
         return <div></div>;
