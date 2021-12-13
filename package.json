@@ -2,6 +2,7 @@
   "name": "freshjs-core",
   "version": "0.4.5",
   "description": "",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -27,16 +28,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.3",
-    "babel-plugin-syntax-jsx": "6.18.0",
-    "babel-plugin-transform-es2015-modules-amd": "^6.24.1",
-    "babel-plugin-transform-react-jsx": "6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babelify": "^8.0.0",
-    "browserify": "^16.2.2",
-    "parcel-bundler": "^1.9.7"
+    "@babel/cli": "7.16.0",
+    "@babel/core": "7.16.0",
+    "@babel/plugin-syntax-jsx": "7.16.0",
+    "@babel/plugin-transform-modules-amd": "^7.16.0",
+    "@babel/plugin-transform-react-jsx": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "parcel": "^2.0.0"
   },
   "dependencies": {
     "element.js": "^1.2.0"

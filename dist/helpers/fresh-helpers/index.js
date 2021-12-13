@@ -1,19 +1,23 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deepEquals = exports.Iterator = undefined;
+Object.defineProperty(exports, "Iterator", {
+  enumerable: true,
+  get: function get() {
+    return _Iterator.default;
+  }
+});
+Object.defineProperty(exports, "deepEquals", {
+  enumerable: true,
+  get: function get() {
+    return _deepEquals.default;
+  }
+});
 
-var _Iterator = require('./Iterator');
+var _Iterator = _interopRequireDefault(require("./Iterator"));
 
-var _Iterator2 = _interopRequireDefault(_Iterator);
-
-var _deepEquals = require('./deepEquals');
-
-var _deepEquals2 = _interopRequireDefault(_deepEquals);
+var _deepEquals = _interopRequireDefault(require("./deepEquals"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.Iterator = _Iterator2.default;
-exports.deepEquals = _deepEquals2.default;
